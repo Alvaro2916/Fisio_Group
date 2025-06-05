@@ -24,7 +24,7 @@
                 <tr>
                     <th scope="col"><a class="btn btn-primary" href="index.php?tabla=usuarios&accion=crear&id=<?= $_SESSION["usuario"]->id ?>"><i class="fa-solid fas fa-plus"></i> Crear Fisioterapeuta</a></th>
                     <th scope="col"><a class="btn btn-primary" href="index.php?tabla=usuarios&accion=buscar"><i class="fa-solid fas fa-list"></i> Listar Clientes</a></th>
-                    <th scope="col"><a class="btn btn-primary" href="index.php?tabla=mensajes&accion=buscar"><i class="fa-solid fas fa-upload"></i> Ver tus Citas</a></th>
+                    <th scope="col"><a class="btn btn-primary" href="index.php?tabla=mensajes&accion=ver_fisio&id=<?= $_SESSION["usuario"]->id ?>"><i class="fa-solid fas fa-upload"></i> Ver tus Citas</a></th>
                     <th scope="col"><a class="btn btn-primary" href="index.php?tabla=mensajes&accion=calendario"><i class="fa-solid fas fa-list"></i> Calendario</a></th>
                 </tr>
             </thead>

@@ -28,6 +28,7 @@ function router (){
                 "guardar"=>"store.php",
                 "ver"=> "show.php",
 		        "ver_cita"=>"showcita.php",
+                "ver_fisio"=>"showfisio.php",
                 "buscar"=>"search.php",
                 "borrar"=>"delete.php",
                 "editar"=>"edit.php",

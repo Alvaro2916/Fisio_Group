@@ -46,6 +46,18 @@ class mensajesModel
         return $mensajes ?: []; // devuelve un array vacío si no hay resultados
     }
 
+    public function readFisio(int $id): ?array
+    {
+        $sentencia = $this->conexion->prepare("SELECT * FROM mensajes WHERE id_fisio = :id_fisio");
+        $arrayDatos = [":id_fisio" => $id];
+        $resultado = $sentencia->execute($arrayDatos);
+
+        if (!$resultado) return [];
+
+        $mensajes = $sentencia->fetchAll(PDO::FETCH_ASSOC); // nota: fetchAll, no fetch
+        return $mensajes ?: []; // devuelve un array vacío si no hay resultados
+    }
+
     public function readEdit(int $id): ?stdClass
     {
         $sentencia = $this->conexion->prepare("SELECT * FROM mensajes WHERE id=:id");

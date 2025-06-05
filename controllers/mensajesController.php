@@ -54,6 +54,11 @@ class MensajesController
         return is_array($datos) ? $datos : []; // Devolver array vacío en vez de null
     }
     
+    public function verFisio(int $id): ?array
+    {
+        return $this->model->readFisio($id);
+    }
+
     public function verEditar(int $id): ?stdClass
     {
         return $this->model->readEdit($id);

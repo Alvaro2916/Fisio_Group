@@ -14,6 +14,7 @@ $id = $_REQUEST["id"];
 $controlador = new MensajesController();
 $mensaje_cita = $controlador->verEditar($id);
 
+
 $visibilidad = "hidden";
 $mensaje = "";
 $clase = "alert alert-success";
@@ -34,7 +35,7 @@ if ($mensaje_cita == null) {
 }
 
 // Permisos
-$permisosUsuario = $_SESSION['usuario_logueado']['permisos'] ?? 0;
+$permisosUsuario = $_SESSION["usuario"]->permisos;
 $soloPuedeEditarEstado = $permisosUsuario == 1;
 $soloPuedeEditarTodoMenosEstado = $permisosUsuario == 0;
 
@@ -97,7 +98,7 @@ $soloPuedeEditarTodoMenosEstado = $permisosUsuario == 0;
                         <select class="form-control" id="estado" name="estado">
                             <option value="enviado" <?= ($mensaje_cita->estado == 'Enviado') ? 'selected' : '' ?>>Enviado</option>
                             <option value="aceptado" <?= ($mensaje_cita->estado == 'Aceptado') ? 'selected' : '' ?>>Aceptado</option>
-                            <option value="cancelado" <?= ($mensaje_cita->estado == 'Cancelado') ? 'selected' : '' ?>>Cancelado</option>
+                            <option value="rechazado" <?= ($mensaje_cita->estado == 'Rechazado') ? 'selected' : '' ?>>Rechazado</option>
                         </select>
                     <?php else: ?>
                         <input type="text" class="form-control" id="estado" name="estado"
