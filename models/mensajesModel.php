@@ -58,6 +58,13 @@ class mensajesModel
         return $mensajes ?: []; // devuelve un array vacío si no hay resultados
     }
 
+    public function readCalendario(int $id): ?array {
+        $stmt = $this->conexion->prepare("SELECT * FROM mensajes WHERE id_fisio = :id_fisio ORDER BY fecha_cita ASC");
+        $stmt->execute([":id_fisio" => $id]);
+        $mensajes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $mensajes ?: [];
+    }
+
     public function readEdit(int $id): ?stdClass
     {
         $sentencia = $this->conexion->prepare("SELECT * FROM mensajes WHERE id=:id");
@@ -151,35 +158,5 @@ class mensajesModel
         $sentencia = $this->conexion->prepare("SELECT * FROM mensajes WHERE $campo=:valor");
         $sentencia->execute([":valor" => $valor]);
         return $sentencia->rowCount() > 0;
-    }
-
-    public function getCitasDelMesActual(): array {
-        $mes = date('m');
-        $anio = date('Y');
-
-        $sql = "SELECT id, nombre_cliente, titulo_cita, fecha_cita FROM mensajes 
-                WHERE YEAR(fecha_cita) = :anio AND MONTH(fecha_cita) = :mes
-                ORDER BY fecha_cita ASC";
-
-        $stmt = $this->conexion->prepare($sql);
-        $stmt->execute([
-            ':anio' => $anio,
-            ':mes' => $mes
-        ]);
-
-        $resultados = $stmt->fetchAll(PDO::FETCH_OBJ);
-
-        $citasPorDia = [];
-
-        foreach ($resultados as $cita) {
-            $dia = (int)date('d', strtotime($cita->fecha_cita));
-            if (!isset($citasPorDia[$dia])) {
-                $citasPorDia[$dia] = [];
-            }
-            $citasPorDia[$dia][] = $cita;
-        }
-
-        return $citasPorDia;
-    }
-
+    } 
 }

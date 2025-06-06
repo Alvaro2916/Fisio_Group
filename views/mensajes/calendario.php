@@ -1,106 +1,116 @@
 <?php
-// Variables para mes y año actual
+require_once "controllers/mensajesController.php";
+
+if (!isset($_SESSION['usuario']) || !isset($_SESSION['usuario']->id)) {
+    echo "Error: Debes iniciar sesión.";
+    exit;
+}
+
+$id_fisio = $_SESSION['usuario']->id;
+$model = new MensajesModel();
+$controller = new MensajesController($model);
+$citas = $controller->verCalendario($id_fisio);
+
+$citasPorDia = [];
+foreach ($citas as $cita) {
+    $fecha = $cita['fecha_cita'];
+    $dia = (int)date('d', strtotime($fecha));
+    if (!isset($citasPorDia[$dia])) $citasPorDia[$dia] = [];
+    $citasPorDia[$dia][] = $cita;
+}
+
+// ------------------
+// Parámetros del calendario
+// ------------------
 $anio = date('Y');
 $mes = date('m');
 $nombreMes = date('F', strtotime("$anio-$mes-01"));
-$primerDiaMes = strtotime("$anio-$mes-01");
-$diasEnMes = date('t', $primerDiaMes);
-
-// Día de la semana del primer día del mes (1=lunes ... 7=domingo)
-$primerDiaSemana = date('N', $primerDiaMes);
-
+$primerDiaSemana = date('N', strtotime("$anio-$mes-01")); // 1 (lunes) - 7 (domingo)
+$diasEnMes = date('t', strtotime("$anio-$mes-01"));
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Calendario de Citas - <?= htmlspecialchars($nombreMes . " " . $anio) ?></title>
+    <title>Calendario mensual de citas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         table {table-layout: fixed;}
-        td, th {
-            width: 14.28%;
-            vertical-align: top;
+        td {
             height: 120px;
-            border: 1px solid #dee2e6;
+            vertical-align: top;
+            border: 1px solid #ccc;
             padding: 5px;
         }
         .dia-numero {
             font-weight: bold;
-            margin-bottom: 5px;
         }
         .cita {
             background-color: #d1e7dd;
-            border-radius: 4px;
+            border-left: 5px solid #0f5132;
+            margin-top: 5px;
             padding: 2px 4px;
-            margin-bottom: 2px;
             font-size: 0.85em;
+            border-radius: 3px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
     </style>
 </head>
-<body class="bg-light">
+<body class="container mt-5">
 
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Calendario de Citas - <?= htmlspecialchars($nombreMes . " " . $anio) ?></h1>
-    <table class="table table-bordered bg-white">
+    <h1 class="text-center mb-4">Citas de <?= htmlspecialchars($_SESSION['usuario']->nombre) ?> – <?= $nombreMes . " " . $anio ?></h1>
+
+    <table class="table table-bordered">
         <thead class="table-primary">
             <tr>
-                <th>Lunes</th>
-                <th>Martes</th>
-                <th>Miércoles</th>
-                <th>Jueves</th>
-                <th>Viernes</th>
-                <th>Sábado</th>
-                <th>Domingo</th>
+                <th>Lun</th>
+                <th>Mar</th>
+                <th>Mié</th>
+                <th>Jue</th>
+                <th>Vie</th>
+                <th>Sáb</th>
+                <th>Dom</th>
             </tr>
         </thead>
         <tbody>
             <?php
-            $diaActual = 1;
-            $terminado = false;
+            $dia = 1;
+            $inicio = true;
 
-            // Seis filas máximo para cubrir meses largos
             for ($fila = 0; $fila < 6; $fila++) {
                 echo "<tr>";
-
                 for ($col = 1; $col <= 7; $col++) {
-                    // Primera fila, llenar días vacíos antes del primer día del mes
                     if ($fila === 0 && $col < $primerDiaSemana) {
                         echo "<td></td>";
-                    } else if ($diaActual > $diasEnMes) {
+                    } elseif ($dia > $diasEnMes) {
                         echo "<td></td>";
-                        $terminado = true;
                     } else {
                         echo "<td>";
-                        echo "<div class='dia-numero'>{$diaActual}</div>";
+                        echo "<div class='dia-numero'>$dia</div>";
 
-                        // Mostrar citas si existen para este día
-                        if (isset($citasPorDia[$diaActual])) {
-                            foreach ($citasPorDia[$diaActual] as $cita) {
-                                echo "<div class='cita' title='" . htmlspecialchars($cita->titulo_cita) . "'>";
-                                echo htmlspecialchars($cita->nombre_cliente) . ": " . htmlspecialchars($cita->titulo_cita);
+                        if (isset($citasPorDia[$dia])) {
+                            foreach ($citasPorDia[$dia] as $cita) {
+                                echo "<div class='cita'>";
+                                echo htmlspecialchars($cita['nombre_cliente']) . ": " . htmlspecialchars($cita['titulo_cita']);
                                 echo "</div>";
                             }
                         }
 
                         echo "</td>";
-                        $diaActual++;
+                        $dia++;
                     }
                 }
-
                 echo "</tr>";
-
-                if ($terminado) break;
+                if ($dia > $diasEnMes) break;
             }
             ?>
         </tbody>
     </table>
-    <a href="index.php?tabla=usuarios&accion=administrar&id=<?= $_SESSION["usuario"]->nombre ?>" class="btn btn-secondary">Volver</a>
-</div>
+
+    <a href="/index.php" class="btn btn-secondary">Volver</a>
 
 </body>
 </html>

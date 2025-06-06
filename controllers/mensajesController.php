@@ -64,6 +64,10 @@ class MensajesController
         return $this->model->readEdit($id);
     }
 
+    public function verCalendario(int $id): ?array {
+        return $this->model->readCalendario($id);
+    }
+
     public function listar(): array
     {
         return $this->model->readAll();
@@ -116,12 +120,5 @@ class MensajesController
     public function buscar(string $campo = "nombre_cliente", string $metodo = "contiene", string $texto = ""): array
     {
         return $this->model->search($campo, $metodo, $texto);
-    }
-
-    public function calendario(): void {
-        $citasPorDia = $this->model->getCitasDelMesActual();
-
-        // Pasamos datos a la vista
-        require_once 'views/mensajes/calendario.php';
     }
 }
