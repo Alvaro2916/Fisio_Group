@@ -68,6 +68,10 @@ class MensajesController
         return $this->model->readCalendario($id);
     }
 
+    public function verCitas(int $id): ?array {
+        return $this->model->readCitas($id);
+    }
+
     public function listar(): array
     {
         return $this->model->readAll();

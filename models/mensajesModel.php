@@ -65,6 +65,13 @@ class mensajesModel
         return $mensajes ?: [];
     }
 
+    public function readCitas(int $id): ?array {
+        $stmt = $this->conexion->prepare("SELECT * FROM mensajes WHERE id_cliente = :id_cliente ORDER BY fecha_cita ASC");
+        $stmt->execute([":id_cliente" => $id]);
+        $mensajes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $mensajes ?: [];
+    }
+
     public function readEdit(int $id): ?stdClass
     {
         $sentencia = $this->conexion->prepare("SELECT * FROM mensajes WHERE id=:id");

@@ -27,39 +27,6 @@
 </head>
 
 <body  class="fondoPrincipal"> 
-<!-- 
-  <header class="navbar navbar-dark sticky-top p-0 shadow asignar-letra <?= $_SESSION["usuario"]->permisos == 1 ? 'cabeceraAdmin' : 'cabeceraNormal' ?>">
-    <div class="imagen-container">
-      <img src="/imagenes/fisioterapeuta.jpg" alt="Logo Principal" class="imagen-principal">
-      <a class="navbar-brand col-md-3 col-lg-1 me-0 px-3" href="index.php">Fisio Group</a>
-    </div>
-    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="navbar-nav">
-      <div class="nav-item text-nowrap">
-        <a> Usuario Conectado: <?= $_SESSION["usuario"]->nombre ?></a>
-      </div>
-    </div>
-    <div class="navbar-nav navbar-grid">
-      <?php
-      if ($_SESSION["usuario"]->permisos == 1) {
-      ?>
-        <div class="nav-item text-nowrap">
-          <a class="nav-link px-3" href="index.php?tabla=usuarios&accion=administrar&id=<?= $_SESSION["usuario"]->nombre ?>">Administrar</a>
-        </div>
-        <div class="nav-item text-nowrap">
-          <a class="nav-link px-3" href="login.php">Login</a>
-        </div>
-    </div>
-  <?php } else { ?>
-    <div class="nav-item text-nowrap">
-      <a class="nav-link px-3 active" href="logout.php">Sign out</a>
-    </div>
-    </div>
-  <?php } ?>
-  </header>
--->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4">
   <div class="imagen-container">
     <img src="/imagenes/fisioterapeuta.jpg" alt="Logo Principal" class="imagen-principal">

@@ -33,6 +33,7 @@ function router (){
                 "borrar"=>"delete.php",
                 "editar"=>"edit.php",
                 "calendario"=>"calendario.php", 
+                "miscitas"=>"citas.php"
         ],
         
         "usuarios"=>[//defino las acciones permitidas para esa tabla
