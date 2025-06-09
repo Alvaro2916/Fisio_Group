@@ -114,6 +114,20 @@ $fisios = $controlador->listar();
     </div>
   </section>
 
+  <!-- Ubicación -->
+  <section id="ubicacion" class="container my-5">
+    <h2 class="text-center mb-4 fw-bold text-success">Dónde estamos</h2>
+    <p class="text-center mb-4">Puedes visitarnos en: <strong>Calle Virgen de Fátima Nº65, Aspe</strong></p>
+    <div class="ratio ratio-16x9 shadow rounded">
+      <iframe
+        src="https://www.google.com/maps?q=Calle+Virgen+de+Fátima+65,+Aspe&output=embed"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+  </section>
+
   <!-- Quienes somos -->
   <section id="quienes-somos" class="bg-light py-5">
     <div class="container text-center">

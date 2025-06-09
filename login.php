@@ -67,6 +67,22 @@ if (isset($_GET["session"]) && ($_GET["session"] == "logout")) {
         top: 95%;
         left: 82%;
       }
+
+      .btn-crear {
+        background: linear-gradient(45deg, #28a745, #218838);
+        color: white;
+        font-weight: 600;
+        border-radius: 0.5rem;
+        transition: background 0.3s ease;
+        text-align: center;
+        text-decoration: none;
+      }
+
+      .btn-crear:hover {
+        background: linear-gradient(45deg, #218838, #1e7e34);
+        color: #fff;
+        text-decoration: none;
+      }
     </style>
   </head>
 
@@ -90,11 +106,15 @@ if (isset($_GET["session"]) && ($_GET["session"] == "logout")) {
             Recuerdame
           </label>
         </div>
-        <button class="btn btn-primary w-100 py-2" type="submit">Iniciar Sesión</button>
+        <div class="d-flex justify-content-between gap-2">
+          <button class="btn btn-primary w-50" type="submit">
+            <i class="fa fa-sign-in"></i> Iniciar Sesión
+          </button>
+          <a href="index.php?tabla=usuarios&accion=crear" class="btn btn-success w-50 btn-crear">
+            <i class="fa fa-user-plus"></i> Crear Usuario
+          </a>
+        </div>
       </form>
-      <section class="btn btn-success">
-          <a href="index.php?tabla=usuarios&accion=crear" class="btn-crear">Crear Usuario</a>
-      </section>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
   </body>
