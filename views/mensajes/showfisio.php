@@ -1,15 +1,18 @@
 <?php
 require_once "controllers/mensajesController.php";
+require_once "controllers/usuariosController.php";
 
 $mensaje = "";
 $clase = "alert alert-success";
 $visibilidad = "hidden";
 $mostrarDatos = false;
 $controlador = new MensajesController();
+$controladorFisio = new UsuariosController();
 $user = "";
 $campo = "";
 $modo = "";
 $usuarios = $controlador->verFisio($_SESSION["usuario"]->id);
+$fisios = $controladorFisio->listar();
 $mostrarDatos = true;
 
 ?>
@@ -43,7 +46,11 @@ $mostrarDatos = true;
                             <td><?= $usuario["descripcion"] ?></td>
                             <td><?= $usuario["zona_dolorida"] ?></td>
                             <td><?= $usuario["fecha_cita"] ?></td>
-                            <td><?= $usuario["id_fisio"] ?></td>
+                            <?php foreach ($fisios as $fisio): ?>
+                                <?php if ($fisio->id == $usuario["id_fisio"]){ ?>
+                                    <td><?= $fisio->nombre ?></td>
+                                <?php } ?>    
+                            <?php endforeach; ?>
                             <td><?= $usuario["estado"] ?></td>
                             <td><a class="btn btn-primary" href="index.php?tabla=mensajes&accion=editar&id=<?= $usuario["id"] ?>"><i class="fa-solid fas fa-user-tie"></i> Editar Cita</a></td>
                         </tr>

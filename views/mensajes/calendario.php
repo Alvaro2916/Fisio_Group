@@ -68,7 +68,13 @@ $diasEnMes = date('t', strtotime("$anio-$mes-01"));
 
                         if (isset($citasPorDia[$dia])) {
                             foreach ($citasPorDia[$dia] as $cita) {
-                                echo "<div class='cita'>";
+                                $estado = $cita['estado'];
+                                $colorClase = match ($estado) {
+                                    'aceptado' => 'text-success',
+                                    'rechazado' => 'text-danger',
+                                    'enviado' => 'text-secondary'
+                                };
+                                echo "<div class='cita $colorClase'>";
                                 echo "<strong>" . $cita['nombre_cliente'] . ":</strong> " . $cita['titulo_cita'] . "<br>";
                                 echo "<small>" . date('d/m/Y', strtotime($cita['fecha_cita'])) . "</small>";
                                 echo "</div>";

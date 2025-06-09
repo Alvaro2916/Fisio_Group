@@ -1,15 +1,18 @@
 <?php
 require_once "controllers/mensajesController.php";
+require_once "controllers/usuariosController.php";
 
 $mensaje = "";
 $clase = "alert alert-success";
 $visibilidad = "hidden";
 $mostrarDatos = false;
 $controlador = new MensajesController();
+$controladorFisio = new UsuariosController();
 $user = "";
 $campo = "";
 $modo = "";
 $usuarios = $controlador->ver($_SESSION["usuario"]->id);
+$fisios = $controladorFisio->listar();
 $mostrarDatos = true;
 ?>
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -42,11 +45,15 @@ $mostrarDatos = true;
                             <td><?= $usuario["descripcion"] ?></td>
                             <td><?= $usuario["zona_dolorida"] ?></td>
                             <td><?= $usuario["fecha_cita"] ?></td>
-                            <td><?= $usuario["id_fisio"] ?></td>
+                            <?php foreach ($fisios as $fisio): ?>
+                                <?php if ($fisio->id == $usuario["id_fisio"]){ ?>
+                                    <td><?= $fisio->nombre ?></td>
+                                <?php } ?>    
+                            <?php endforeach; ?>
                             <td><?= $usuario["estado"] ?></td>
                             <td>
                                 <a class="btn btn-primary" href="index.php?tabla=mensajes&accion=editar&id=<?= $usuario["id"] ?>"><i class="fa-solid fas fa-user-tie"></i> Editar Cita</a>
-                                <a class="btn btn-danger" href="index.php?tabla=mensajes&accion=borrar&id=<?= $usuario["id"] ?>"><i class="fa-solid fas fa-user-tie"></i> Cancelar Cita</a>
+                                <a class="btn btn-danger" href="index.php?tabla=mensajes&accion=borrar&id=<?= $usuario["id"] ?>"><i class="fa-solid fas fa-ban"></i> Cancelar Cita</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

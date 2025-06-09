@@ -32,8 +32,8 @@ CREATE TABLE IF NOT EXISTS mensajes (
 
 -- Insertar usuarios (actualizado con apellidos y telefono)
 INSERT INTO usuarios (nombre, apellidos, telefono, edad, imagen, descripcion, gmail, permisos, contrasenya) VALUES
-('Jesus', 'Ramírez López', '600111222', 34, 'default.png', 'Especialista en lesiones deportivas', 'jesus@clinica.com', 1, '$2y$10$NCQL1vsTeZRJasOqZfFhJOGJCeP872.ifPicHCem/tX8/k0HAI4NG'),
-('Luis', 'González Pérez', '600222333', 41, 'default.png', 'Dolores de espalda y cuello', 'luis@clinica.com', 1, '$2y$10$UycR3sySl4fZl9LKVNrlLu/gHSKTjXmWmg9.utQh43ArwvzMJ6/M6'),
+('Jesus', 'Ramírez López', '600111222', 34, 'Jesus.jpeg', 'Especialista en lesiones deportivas', 'jesus@clinica.com', 1, '$2y$10$NCQL1vsTeZRJasOqZfFhJOGJCeP872.ifPicHCem/tX8/k0HAI4NG'),
+('Luis', 'González Pérez', '600222333', 41, 'Luis.jpeg', 'Dolores de espalda y cuello', 'luis@clinica.com', 1, '$2y$10$UycR3sySl4fZl9LKVNrlLu/gHSKTjXmWmg9.utQh43ArwvzMJ6/M6'),
 ('Ismael', 'Torres Núñez', '600333444', 38, 'default.png', 'Postoperatorios y adultos mayores', 'ismael@clinica.com', 1, '$2y$10$3VuQPKNklJ0141cTTgGZs.g2qcIKbyb9zLQU/Fts9kxWvDdLlcvfy'),
 ('admin', 'Admin', '600000000', 29, 'default.png', '', 'admin@gmail.com', 0, '$2y$10$dIBvy.QseqFNzP7GErgSF.P7coKdx/onIiO4QNiiLnbwYyPMxOUFm'),
 ('Alvaro', 'Méndez Soto', '600444555', 45, '6cukfi.jpg', '', 'alvaro@gmail.com', 0, '$2y$10$vQIVG0TXOTD88Jmkhx9I0e2PCPNaDyUJsfaiEo9AyS4zcb/kcGZHy'),
