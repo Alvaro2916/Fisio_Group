@@ -32,29 +32,6 @@ $diasEnMes = date('t', strtotime("$anio-$mes-01"));
     <meta charset="UTF-8">
     <title>Calendario de tus citas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        table {table-layout: fixed;}
-        td {
-            height: 120px;
-            vertical-align: top;
-            border: 1px solid #ccc;
-            padding: 5px;
-        }
-        .dia-numero {
-            font-weight: bold;
-        }
-        .cita {
-            background-color: #d1e7dd;
-            border-left: 5px solid #0f5132;
-            margin-top: 5px;
-            padding: 2px 4px;
-            font-size: 0.85em;
-            border-radius: 3px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-    </style>
 </head>
 <body class="container mt-5">
 
@@ -91,7 +68,8 @@ $diasEnMes = date('t', strtotime("$anio-$mes-01"));
                         if (isset($citasPorDia[$dia])) {
                             foreach ($citasPorDia[$dia] as $cita) {
                                 echo "<div class='cita'>";
-                                echo htmlspecialchars($cita['nombre_cliente']) . ": " . htmlspecialchars($cita['titulo_cita']);
+                                echo "<strong>" . $cita['nombre_cliente'] . ":</strong> " . $cita['titulo_cita'] . "<br>";
+                                echo "<small>" . date('d/m/Y', strtotime($cita['fecha_cita'])) . "</small>";
                                 echo "</div>";
                             }
                         }
@@ -106,8 +84,6 @@ $diasEnMes = date('t', strtotime("$anio-$mes-01"));
             ?>
         </tbody>
     </table>
-
-    <a href="/index.php" class="btn btn-secondary">Volver</a>
-
+    <a class="btn btn-danger" href="index.php"><i class="fa-solid fas fa-ban"></i> Volver</a>
 </body>
 </html>

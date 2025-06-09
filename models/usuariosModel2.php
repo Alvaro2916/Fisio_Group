@@ -28,9 +28,6 @@ class UsuariosModel
             ];
             $resultado = $sentencia->execute($arrayDatos);
 
-            /*Pasar en el mismo orden de los ? execute devuelve un booleano. 
-            True en caso de que todo vaya bien, falso en caso contrario.*/
-            //Así podriamos evaluar
             return ($resultado == true) ? $this->conexion->lastInsertId() : null;
         } catch (Exception $e) {
             echo 'Excepción capturada: ', $e->getMessage(), "<bR>";
@@ -43,13 +40,8 @@ class UsuariosModel
         $sentencia = $this->conexion->prepare("SELECT * FROM usuarios WHERE id=:id");
         $arrayDatos = [":id" => $id];
         $resultado = $sentencia->execute($arrayDatos);
-        // ojo devuelve true si la consulta se ejecuta correctamente
-        // eso no quiere decir que hayan resultados
         if (!$resultado) return null;
-        //como sólo va a devolver un resultado uso fetch
-        // DE Paso probamos el FETCH_OBJ
         $user = $sentencia->fetch(PDO::FETCH_OBJ);
-        //fetch duevelve el objeto stardar o false si no hay persona
         return ($user == false) ? null : $user;
     }
 
@@ -66,8 +58,6 @@ class UsuariosModel
         $sql = "DELETE FROM usuarios WHERE id =:id";
         try {
             $sentencia = $this->conexion->prepare($sql);
-            //devuelve true si se borra correctamente
-            //false si falla el borrado
             $resultado = $sentencia->execute([":id" => $id]);
             return ($sentencia->rowCount() <= 0) ? false : true;
         } catch (Exception $e) {

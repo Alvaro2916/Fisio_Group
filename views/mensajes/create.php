@@ -15,38 +15,7 @@ if (isset($_REQUEST["error"])) {
   $visibilidad = "visible";
 }
 ?>
-<style>
-  .zona-info {
-    font-weight: bold;
-    color: #198754;
-    margin-top: 15px;
-  }
-
-  .cuerpo-img {
-    max-width: 100%;
-    height: auto;
-  }
-
-  .body-container {
-    display: flex;
-    flex-direction: row-reverse;
-    gap: 40px;
-    margin-top: 30px;
-    flex-wrap: wrap;
-    align-items: flex-start;
-  }
-
-  form {
-    flex: 1;
-    min-width: 300px;
-  }
-
-  .imagen-cuerpo {
-    max-width: 400px;
-    flex-shrink: 0;
-    text-align: center;
-  }
-</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -58,19 +27,29 @@ if (isset($_REQUEST["error"])) {
     <!-- Imagen cuerpo humano -->
     <div class="imagen-cuerpo">
       <img src="assets/img/cuerpo.jpg" alt="Cuerpo humano" usemap="#zonas" class="cuerpo-img">
-      <div id="zonaSeleccionada" class="zona-info text-center">Haz clic en una zona del cuerpo</div>
+      
+        <div class="zona cabeza"></div>
+        <div class="zona brazo-derecho"></div>
+        <div class="zona brazo-izquierdo"></div>
+        <div class="zona torso"></div>
+        <div class="zona muslo-derecho"></div>
+        <div class="zona muslo-izquierdo"></div>
+        <div class="zona pierna-derecha"></div>
+        <div class="zona pierna-izquierda"></div>
+        <div class="zona tobillo-derecho"></div>
+        <div class="zona tobillo-izquierdo"></div>
+      
 
+      <div id="zonaSeleccionada" class="zona-info text-center">Haz clic en una zona del cuerpo</div>
       <map name="zonas">
-        <area shape="circle" coords="250,60,30" href="#" alt="Cabeza" data-zona="Cabeza">
-        <area shape="rect" coords="60,120,90,220" href="#" alt="Brazo Derecho" data-zona="Brazo Derecho">
-        <area shape="rect" coords="170,120,200,220" href="#" alt="Brazo Izquierdo" data-zona="Brazo Izquierdo">
-        <area shape="rect" coords="95,100,165,220" href="#" alt="Torso" data-zona="Torso">
-        <area shape="rect" coords="95,220,115,310" href="#" alt="Muslo Derecho" data-zona="Muslo Derecho">
-        <area shape="rect" coords="145,220,165,310" href="#" alt="Muslo Izquierdo" data-zona="Muslo Izquierdo">
-        <area shape="rect" coords="95,310,115,400" href="#" alt="Pierna Derecha" data-zona="Pierna Derecha">
-        <area shape="rect" coords="145,310,165,400" href="#" alt="Pierna Izquierda" data-zona="Pierna Izquierda">
-        <area shape="circle" coords="105,415,10" href="#" alt="Tobillo Derecho" data-zona="Tobillo Derecho">
-        <area shape="circle" coords="155,415,10" href="#" alt="Tobillo Izquierdo" data-zona="Tobillo Izquierdo">
+        <area shape="circle" coords="200,60,30" href="#" alt="Cabeza" data-zona="Cabeza">
+        <area shape="rect" coords="230,110,270,220" href="#" alt="Brazo Derecho" data-zona="Brazo Derecho">
+        <area shape="rect" coords="135,110,175,220" href="#" alt="Brazo Izquierdo" data-zona="Brazo Izquierdo">
+        <area shape="rect" coords="170,100,230,220" href="#" alt="Torso" data-zona="Torso">
+        <area shape="rect" coords="200,220,230,310" href="#" alt="Muslo Derecho" data-zona="Muslo Derecho">
+        <area shape="rect" coords="170,220,200,310" href="#" alt="Muslo Izquierdo" data-zona="Muslo Izquierdo">
+        <area shape="rect" coords="205,310,225,370" href="#" alt="Pierna Derecha" data-zona="Pierna Derecha">
+        <area shape="rect" coords="175,310,195,370" href="#" alt="Pierna Izquierda" data-zona="Pierna Izquierda">
       </map>
     </div>
 
@@ -109,8 +88,10 @@ if (isset($_REQUEST["error"])) {
       </div>
 
       <div class="mb-3">
-        <label for="fecha_cita" class="form-label">Fecha de la cita</label>
-        <input type="date" class="form-control" id="fecha_cita" name="fecha_cita" required>
+        <label for="fecha_cita" class="form-label">Fecha y hora de la cita</label>
+        <input type="text" class="form-control" id="fecha_cita" name="fecha_cita"
+          value="<?= $_SESSION["datos"]["fecha_cita"] ?? "" ?>" required placeholder="Selecciona fecha y hora">
+        <?= isset($errores["fecha_cita"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "fecha_cita") . '</div>' : ""; ?>
       </div>
 
       <div class="mb-3">
@@ -129,7 +110,7 @@ if (isset($_REQUEST["error"])) {
 
       <br>
       <button type="submit" class="btn btn-primary"><i class="fa-solid fas fa-check"></i> Guardar</button>
-      <a href="index.php?tabla=usuarios&accion=administrar" class="btn btn-danger"><i class="fa-solid fas fa-ban"></i> Cancelar</a>
+      <a class="btn btn-danger" href="index.php"><i class="fa-solid fas fa-ban"></i> Cancelar</a>
     </form>
 
     <?php
@@ -139,8 +120,18 @@ if (isset($_REQUEST["error"])) {
   </div>
 </main>
 
-<!-- Script para seleccionar zona -->
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<!-- Inicializar Flatpickr -->
 <script>
+  flatpickr("#fecha_cita", {
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+    time_24hr: true,
+    minDate: "today"
+  });
+
   document.querySelectorAll('area').forEach(area => {
     area.addEventListener('click', function (e) {
       e.preventDefault();

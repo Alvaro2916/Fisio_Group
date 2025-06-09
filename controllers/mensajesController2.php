@@ -74,7 +74,7 @@ class MensajesController
         $usuario = $this->ver($id);
 
         $borrado = $this->model->delete($id);
-        $redireccion = "location:index.php?accion=buscar&tabla=usuarios";
+        $redireccion = "location:index.php";
 
         if ($borrado == false) $redireccion .=  "&error=true";
         header($redireccion);

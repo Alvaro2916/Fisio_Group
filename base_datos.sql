@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS mensajes (
     titulo_cita VARCHAR(100),
     descripcion TEXT,
     zona_dolorida VARCHAR(100),
-    fecha_cita DATE,
+    fecha_cita DATETIME,
     id_fisio INT NOT NULL,
     estado ENUM('enviado', 'aceptado', 'rechazado') NOT NULL DEFAULT 'enviado',
     FOREIGN KEY (id_cliente) REFERENCES usuarios(id) ON DELETE CASCADE,
@@ -41,6 +41,6 @@ INSERT INTO usuarios (nombre, apellidos, telefono, edad, imagen, descripcion, gm
 
 -- Insertar mensajes
 INSERT INTO mensajes (id_cliente, nombre_cliente, titulo_cita, descripcion, zona_dolorida, fecha_cita, id_fisio) VALUES
-(5, 'Alvaro', 'Dolor lumbar', 'Dolor persistente en la zona baja de la espalda', 'Espalda baja', '2025-06-02', 1),
-(6, 'Ana', 'Revisión de hombro', 'Dolor tras jugar tenis', 'Hombro derecho', '2025-06-05', 2),
-(6, 'Ana', 'Lesión de rodilla', 'Me caí corriendo, y me duele al doblarla', 'Rodilla izquierda', '2025-06-10', 3);
+(5, 'Alvaro', 'Dolor lumbar', 'Dolor persistente en la zona baja de la espalda', 'Espalda baja', '2025-06-02 10:30:00', 1),
+(6, 'Ana', 'Revisión de hombro', 'Dolor tras jugar tenis', 'Hombro derecho', '2025-06-05 15:00:00', 2),
+(6, 'Ana', 'Lesión de rodilla', 'Me caí corriendo, y me duele al doblarla', 'Rodilla izquierda', '2025-06-10 09:00:00', 3);

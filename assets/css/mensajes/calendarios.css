@@ -1,0 +1,23 @@
+table {table-layout: fixed;}
+td {
+    height: 120px;
+    vertical-align: top;
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+.dia-numero {
+    font-weight: bold;
+}
+
+.cita {
+    background-color: #d1e7dd;
+    border-left: 5px solid #0f5132;
+    margin-top: 5px;
+    padding: 2px 4px;
+    font-size: 0.85em;
+    border-radius: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

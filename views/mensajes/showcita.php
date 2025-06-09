@@ -44,7 +44,10 @@ $mostrarDatos = true;
                             <td><?= $usuario["fecha_cita"] ?></td>
                             <td><?= $usuario["id_fisio"] ?></td>
                             <td><?= $usuario["estado"] ?></td>
-                            <td><a class="btn btn-primary" href="index.php?tabla=mensajes&accion=editar&id=<?= $usuario["id"] ?>"><i class="fa-solid fas fa-user-tie"></i> Editar Cita</a></td>
+                            <td>
+                                <a class="btn btn-primary" href="index.php?tabla=mensajes&accion=editar&id=<?= $usuario["id"] ?>"><i class="fa-solid fas fa-user-tie"></i> Editar Cita</a>
+                                <a class="btn btn-danger" href="index.php?tabla=mensajes&accion=borrar&id=<?= $usuario["id"] ?>"><i class="fa-solid fas fa-user-tie"></i> Cancelar Cita</a>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

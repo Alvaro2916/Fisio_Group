@@ -14,7 +14,6 @@ $id = $_REQUEST["id"];
 $controlador = new MensajesController();
 $mensaje_cita = $controlador->verEditar($id);
 
-
 $visibilidad = "hidden";
 $mensaje = "";
 $clase = "alert alert-success";
@@ -50,11 +49,12 @@ $soloPuedeEditarTodoMenosEstado = $permisosUsuario == 0;
             <form action="index.php?tabla=mensajes&accion=guardar&evento=modificar&nombre=<?= $mensaje_cita->nombre_cliente ?>" method="POST" enctype="multipart/form-data">
                 <input type="hidden" id="id" name="id" value="<?= $mensaje_cita->id ?>">    
                 <input type="hidden" id="id_cliente" name="id_cliente" value="<?= $mensaje_cita->id_cliente ?>">
+                <input type="hidden" id="id_fisio" name="id_fisio" value="<?= $mensaje_cita->id_fisio ?>">
                 <div class="form-group">
                     <label for="nombre_cliente">Nombre </label>
                     <input type="text" class="form-control" id="nombre_cliente" name="nombre_cliente"
                         value="<?= $_SESSION["datos"]["nombre_cliente"] ?? $mensaje_cita->nombre_cliente ?>"
-                        <?= $soloPuedeEditarEstado ? 'readonly' : '' ?>>
+                        readonly>
                     <?= isset($errores["nombre_cliente"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "nombre_cliente") . '</div>' : ""; ?>
                 </div>
                 <div class="form-group">
@@ -79,26 +79,19 @@ $soloPuedeEditarTodoMenosEstado = $permisosUsuario == 0;
                     <?= isset($errores["zona_dolorida"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "zona_dolorida") . '</div>' : ""; ?>
                 </div>
                 <div class="form-group">
-                    <label for="fecha_cita">Fecha de la cita</label>
-                    <input type="date" class="form-control" id="fecha_cita" name="fecha_cita"
-                        value="<?= $_SESSION["datos"]["fecha_cita"] ?? $mensaje_cita->fecha_cita ?>"
+                    <label for="fecha_cita">Fecha y hora de la cita</label>
+                    <input type="datetime-local" class="form-control" id="fecha_cita" name="fecha_cita"
+                        value="<?= $_SESSION["datos"]["fecha_cita"] ?? date('Y-m-d\TH:i', strtotime($mensaje_cita->fecha_cita)) ?>"
                         <?= $soloPuedeEditarEstado ? 'readonly' : '' ?>>
                     <?= isset($errores["fecha_cita"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "fecha_cita") . '</div>' : ""; ?>
-                </div>
-                <div class="form-group">
-                    <label for="id_fisio">Fisioterapeuta</label>
-                    <input type="text" class="form-control" id="id_fisio" name="id_fisio"
-                        value="<?= $_SESSION["datos"]["id_fisio"] ?? $mensaje_cita->id_fisio ?>"
-                        <?= $soloPuedeEditarEstado ? 'readonly' : '' ?>>
-                    <?= isset($errores["id_fisio"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "id_fisio") . '</div>' : ""; ?>
                 </div>
                 <div class="form-group">
                     <label for="estado">Estado</label>
                     <?php if ($soloPuedeEditarEstado): ?>
                         <select class="form-control" id="estado" name="estado">
-                            <option value="enviado" <?= ($mensaje_cita->estado == 'Enviado') ? 'selected' : '' ?>>Enviado</option>
-                            <option value="aceptado" <?= ($mensaje_cita->estado == 'Aceptado') ? 'selected' : '' ?>>Aceptado</option>
-                            <option value="rechazado" <?= ($mensaje_cita->estado == 'Rechazado') ? 'selected' : '' ?>>Rechazado</option>
+                            <option value="enviado" <?= (strtolower($mensaje_cita->estado) == 'enviado') ? 'selected' : '' ?>>Enviado</option>
+                            <option value="aceptado" <?= (strtolower($mensaje_cita->estado) == 'aceptado') ? 'selected' : '' ?>>Aceptado</option>
+                            <option value="rechazado" <?= (strtolower($mensaje_cita->estado) == 'rechazado') ? 'selected' : '' ?>>Rechazado</option>
                         </select>
                     <?php else: ?>
                         <input type="text" class="form-control" id="estado" name="estado"

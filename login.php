@@ -73,7 +73,7 @@ if (isset($_GET["session"]) && ($_GET["session"] == "logout")) {
   <body class="d-flex align-items-center py-4 bg-body-tertiary">
     <main class="form-signin w-100 m-auto formulario">
       <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
-        <center><img class="mb-4" src="assets/img/Digimon.png" alt="" width="150"></center>
+        <center><img class="mb-4" src="assets/img/Logo.png" alt="" width="150"></center>
         <div class="alert <?= $style . ' ' . $visibilidad ?>"><?= $msg ?></div>
         <h1 class="h3 mb-3 fw-normal">Inicio de Sesión</h1>
         <div class="form-floating">
@@ -93,7 +93,7 @@ if (isset($_GET["session"]) && ($_GET["session"] == "logout")) {
         <button class="btn btn-primary w-100 py-2" type="submit">Iniciar Sesión</button>
       </form>
       <section class="btn btn-success">
-          <a href="index.php?tabla=usuarios&accion=crear&id=<?= $_SESSION["usuario"]->id ?>" class="btn-crear">Crear Usuario</a>
+          <a href="index.php?tabla=usuarios&accion=crear" class="btn-crear">Crear Usuario</a>
       </section>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
