@@ -80,9 +80,14 @@ class usuariosModel
     public function edit(int $idAntiguo, array $arrayUsuario): bool
     {
         try {
-            $sql = "UPDATE usuarios SET nombre = :nombre, apellidos = :apellidos, telefono = :telefono
-            edad = :edad, gmail = :gmail, contrasenya = :contrasenya ";
-            $sql .= " WHERE id = :id;";
+            $contrasenya = $arrayUsuario["contrasenya"];
+            if (!password_get_info($contrasenya)['algo']) {
+                $contrasenya = password_hash($contrasenya, PASSWORD_DEFAULT);
+            }
+
+            $sql = "UPDATE usuarios SET nombre = :nombre, apellidos = :apellidos, telefono = :telefono,
+            edad = :edad, gmail = :gmail, contrasenya = :contrasenya WHERE id = :id;";
+
             $arrayDatos = [
                 ":id" => $idAntiguo,
                 ":nombre" => $arrayUsuario["nombre"],
@@ -90,12 +95,12 @@ class usuariosModel
                 ":telefono" => $arrayUsuario["telefono"],
                 ":edad" => $arrayUsuario["edad"],
                 ":gmail" => $arrayUsuario["gmail"],
-                ":contrasenya" => password_hash($arrayUsuario["contrasenya"], PASSWORD_DEFAULT),
+                ":contrasenya" => $contrasenya,
             ];
             $sentencia = $this->conexion->prepare($sql);
             return $sentencia->execute($arrayDatos);
         } catch (Exception $e) {
-            echo 'Excepción capturada: ', $e->getMessage(), "<bR>";
+            echo 'Excepción capturada: ', $e->getMessage(), "<br>";
             return false;
         }
     }

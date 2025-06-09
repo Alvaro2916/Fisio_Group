@@ -11,6 +11,7 @@ $id = ($_REQUEST["id"]) ?? ""; //el id me servirá en editar
 $arrayUser = [
     "id" => $id,
     "nombre" => $_REQUEST["nombre"],
+    "nombreOriginal" => $_REQUEST["nombreOriginal"],
     "apellidos" => $_REQUEST["apellidos"] ?? "",
     "permisos" => $_REQUEST["permisos"] ?? 0,
     "contrasenya" => $_REQUEST["contrasenya"] ?? "",
