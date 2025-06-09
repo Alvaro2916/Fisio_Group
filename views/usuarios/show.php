@@ -11,6 +11,7 @@ $id = $_REQUEST['id'];
 $controlador = new UsuariosController();
 $usuarios = $controlador->ver($id);
 ?>
+<link href="assets/css/usuarios/show.css" rel="stylesheet">
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h3">Ver Usuarios</h1>
@@ -31,7 +32,7 @@ $usuarios = $controlador->ver($id);
                 <a class="btn btn-info" 
                     href="https://mail.google.com/mail/?view=cm&fs=1&to=<?= urlencode($usuarios->gmail) ?>&su=Contacto%20desde%20Fisio_Group&body=Hola%20<?= urlencode($usuarios->nombre) ?>%2C%0A%0AQuer%C3%ADa%20contactarte%20desde%20Fisio_Group." 
                     target="_blank" rel="noopener noreferrer">
-                    <i class="fa-solid fa-envelope"></i> Contactar
+                    <i class="fa-solid fas fa-comments"></i> Contactar
                 </a>
                 <a class="btn btn-success" href="index.php?tabla=usuarios&accion=editar&id=<?= $id ?><?= isset($_REQUEST["buscar"]) ? "&buscar=true" : ""; ?>"><i class="fa-solid fas fa-pen"></i> Editar</a>
                 <a class="btn btn-danger <?= $disable ?>" href="index.php?tabla=usuarios&accion=borrar&id=<?= $id ?>"><i class="fa-solid fas fa-trash"></i> Borrar</a>

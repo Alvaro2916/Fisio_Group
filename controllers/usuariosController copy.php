@@ -1,8 +1,8 @@
 <?php
-require_once "models/mensajesModel.php";
+require_once "models/usuariosModel.php";
 require_once "assets/php/funciones.php";
 
-class MensajesController
+class UsuariosController
 {
     private $model;
 
@@ -10,7 +10,7 @@ class MensajesController
 
     public function __construct()
     {
-        $this->model = new MensajesModel();
+        $this->model = new UsuariosModel();
     }
 
     public function crear(array $arrayUser): void
@@ -24,7 +24,7 @@ class MensajesController
         // ERRORES DE TIPO
 
         //campos NO VACIOS
-        $arrayNoNulos = ["nombre_cliente"];
+        $arrayNoNulos = ["nombre", "contrasenya"];
         $nulos = HayNulos($arrayNoNulos, $arrayUser);
         if (count($nulos) > 0) {
             $error = true;
@@ -33,6 +33,15 @@ class MensajesController
             }
         }
 
+        //CAMPOS UNICOS
+        $arrayUnicos = ["nombre", "apellidos"];
+
+        foreach ($arrayUnicos as $CampoUnico) {
+            if ($this->model->exists($CampoUnico, $arrayUser[$CampoUnico])) {
+                $errores[$CampoUnico][] = "El {$arrayUser[$CampoUnico]} de {$CampoUnico} ya existe";
+                $error = true;
+            }
+        }
         $id = null;
         if (!$error) $id = 1;
 
@@ -44,6 +53,25 @@ class MensajesController
         } else {
             unset($_SESSION["errores"]);
             unset($_SESSION["datos"]);
+
+            $directorio = "assets/img/usuarios/" . $_REQUEST["nombre"] . "/";
+            if (!file_exists($directorio)) {
+                mkdir($directorio, 0777, true);
+            }
+
+            $nombreTemp = $_FILES["imagen"]["tmp_name"];
+            $nombreImagen = $_FILES["imagen"]["name"];
+
+
+            if (!empty($_FILES["imagen"]["tmp_name"])) {
+                move_uploaded_file($nombreTemp, $directorio . urlencode($nombreImagen));
+                $arrayUser["imagen"] = ["name" => $nombreImagen];
+            } else {
+                $imagenPorDefecto = "assets/img/usuarios/default.png";
+                $destino = $directorio . "default.png";
+                copy($imagenPorDefecto, $destino);
+                $arrayUser["imagen"] = ["name" => "default.png"];
+            }            
 
             $id = $this->model->insert($arrayUser);
 
@@ -73,14 +101,31 @@ class MensajesController
     {
         $usuario = $this->ver($id);
 
+        if ($usuario) {
+            $directorio = "assets/img/usuarios/" . $usuario->nombre;
+            $this->eliminarCarpeta($directorio);
+        }
+
         $borrado = $this->model->delete($id);
-        $redireccion = "location:index.php";
+        $redireccion = "location:index.php?accion=buscar&tabla=usuarios";
 
         if ($borrado == false) $redireccion .=  "&error=true";
         header($redireccion);
         exit();
     }
 
+    function eliminarCarpeta($carpeta)
+    {
+        if (is_dir($carpeta)) {
+            $archivos = array_diff(scandir($carpeta), array('.', '..'));
+            foreach ($archivos as $archivo) {
+                $ruta = $carpeta . "/" . $archivo;
+                is_dir($ruta) ? $this->eliminarCarpeta($ruta) : unlink($ruta);
+            }
+            return rmdir($carpeta);
+        }
+        return false;
+    }
 
     public function editar(string $id, array $arrayUser): void
     {
@@ -94,7 +139,7 @@ class MensajesController
         // ERRORES DE TIPO
 
         //campos NO VACIOS
-        $arrayNoNulos = ["nombre_cliente"];
+        $arrayNoNulos = ["nombre", "contrasenya"];
         $nulos = HayNulos($arrayNoNulos, $arrayUser);
         if (count($nulos) > 0) {
             $error = true;
@@ -108,6 +153,22 @@ class MensajesController
         if (!$error) $editado = $this->model->edit($id, $arrayUser);
 
         if ($editado) {
+            // Si el nombre del usuario ha cambiado, renombrar la carpeta
+            if ($arrayUser["nombre"] != $arrayUser["nombreOriginal"]) {
+                $directorioAntiguo = "assets/img/usuarios/" . $arrayUser["nombreOriginal"] . "/";
+                $directorioNuevo = "assets/img/usuarios/" . $arrayUser["nombre"] . "/";
+
+                if (file_exists($directorioAntiguo)) {
+                    rename($directorioAntiguo, $directorioNuevo);
+                }
+
+                // Verificar si hay una imagen personalizada y actualizar la referencia
+                $imagenActual = $arrayUser["imagen"] ?? "default.png";
+                if ($imagenActual !== "default.png") {
+                    $arrayUser["imagen"] = $directorioNuevo . basename($imagenActual);
+                }
+            }
+
             unset($_SESSION["errores"]);
             unset($_SESSION["datos"]);
             $id = $arrayUser["id"];

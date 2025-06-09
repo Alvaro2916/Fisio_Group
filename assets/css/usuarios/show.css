@@ -1,0 +1,122 @@
+/* Estilo general del contenedor */
+main.col-md-9 {
+    background-color: #f5f5f5;
+    padding: 20px;
+    min-height: 80vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    box-sizing: border-box;
+    /* Se elimina el display:flex y centrado */
+  }
+  
+  /* Título */
+  main h1.h3 {
+    font-weight: 700;
+    font-size: 2rem;
+    color: #1a237e !important;
+    font-family: "Georgia", serif;
+    margin-bottom: 30px;
+  }
+  
+  /* Card */
+  .card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    max-width: 450px; /* ligeramente más ancho */
+    margin-bottom: 30px;
+  }
+  
+  /* Título dentro de la card */
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #1a237e !important;
+    margin-bottom: 15px;
+  }
+  
+  /* Contenido de texto */
+  .card-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #444;
+  }
+  
+  .card-text img {
+    display: block;
+    margin-bottom: 15px;
+    width: 120px; /* Imagen más grande */
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Botones */
+  .card a.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    margin: 5px 5px 0 0;
+    font-weight: 600;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Info (Gmail) */
+  .btn-info {
+    background-color: #17a2b8;
+    color: #fff;
+    border: none;
+  }
+  
+  .btn-info:hover {
+    background-color: #138496;
+    transform: translateY(-2px);
+  }
+  
+  /* Success (Editar) */
+  .btn-success {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+  }
+  
+  .btn-success:hover {
+    background-color: #1e7e34;
+    transform: translateY(-2px);
+  }
+  
+  /* Danger (Borrar) */
+  .btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+  }
+  
+  .btn-danger:hover {
+    background-color: #bd2130;
+    transform: translateY(-2px);
+  }
+  
+  /* Primary (Atrás) */
+  .btn-primary {
+    background-color: #1a237e !important;
+    color: #fff;
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background-color: #121858;
+    transform: translateY(-2px);
+  }
+  
+  /* Iconos dentro de botones */
+  .card a.btn i {
+    font-size: 1rem;
+    color: #fff;
+  }
+  

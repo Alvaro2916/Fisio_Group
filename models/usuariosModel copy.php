@@ -1,7 +1,7 @@
 <?php
 require_once('config/db.php');
 
-class mensajesModel
+class usuariosModel
 {
     private $conexion;
 
@@ -13,18 +13,19 @@ class mensajesModel
     public function insert(array $user): ?int //devuelve entero o null
     {
         try {
-            $sql = "INSERT INTO mensajes(id_cliente, nombre_cliente, titulo_cita, descripcion, zona_dolorida, fecha_cita, id_fisio, estado)  
-            VALUES (:id_cliente, :nombre_cliente, :titulo_cita, :descripcion, :zona_dolorida, :fecha_cita, :id_fisio, :estado);";
+            $sql = "INSERT INTO usuarios(nombre, apellidos, telefono, edad, imagen, descripcion, gmail, permisos, contrasenya)  
+            VALUES (:nombre, :apellidos, :telefono, :edad, :imagen, :descripcion, :gmail, :permisos, :contrasenya);";
             $sentencia = $this->conexion->prepare($sql);
             $arrayDatos = [
-                ":id_cliente" => $user["id_cliente"],
-                ":nombre_cliente" => $user["nombre_cliente"],
-                ":titulo_cita" => $user["titulo_cita"],
+                ":nombre" => $user["nombre"],
+                ":apellidos" => $user["apellidos"],
+                ":telefono" => $user["telefono"],
+                ":edad" => $user["edad"],
+                ":imagen" => $user["imagen"]["name"],
                 ":descripcion" => $user["descripcion"],
-                ":zona_dolorida" => $user["zona_dolorida"],
-                ":fecha_cita" => $user["fecha_cita"],
-                ":id_fisio" => $user["id_fisio"],
-                ":estado" => $user["estado"],
+                ":gmail" => $user["gmail"],
+                ":permisos" => $user["permisos"] ?? 0,
+                ":contrasenya" => password_hash($user["contrasenya"], PASSWORD_DEFAULT),
             ];
             $resultado = $sentencia->execute($arrayDatos);
 
@@ -40,7 +41,7 @@ class mensajesModel
 
     public function read(int $id): ?stdClass
     {
-        $sentencia = $this->conexion->prepare("SELECT * FROM mensajes WHERE id=:id");
+        $sentencia = $this->conexion->prepare("SELECT * FROM usuarios WHERE id=:id");
         $arrayDatos = [":id" => $id];
         $resultado = $sentencia->execute($arrayDatos);
         // ojo devuelve true si la consulta se ejecuta correctamente
@@ -55,7 +56,7 @@ class mensajesModel
 
     public function readAll(): array
     {
-        $sentencia = $this->conexion->prepare("SELECT * FROM mensajes;");
+        $sentencia = $this->conexion->prepare("SELECT * FROM usuarios;");
         $resultado = $sentencia->execute();
         $usuarios = $sentencia->fetchAll(PDO::FETCH_OBJ);
         return $usuarios;
@@ -63,7 +64,7 @@ class mensajesModel
 
     public function delete(int $id): bool
     {
-        $sql = "DELETE FROM mensajes WHERE id =:id";
+        $sql = "DELETE FROM usuarios WHERE id =:id";
         try {
             $sentencia = $this->conexion->prepare($sql);
             //devuelve true si se borra correctamente
@@ -79,11 +80,21 @@ class mensajesModel
     public function edit(int $idAntiguo, array $arrayUsuario): bool
     {
         try {
-            $sql = "UPDATE mensajes SET estado = :estado";
+            $sql = "UPDATE usuarios SET nombre = :nombre, apellidos = :apellidos, telefono = :telefono
+            edad = :edad, imagen = :imagen, descripcion = :descripcion, gmail = :gmail, permisos = :permisos, 
+            contrasenya = :contrasenya";
             $sql .= " WHERE id = :id;";
             $arrayDatos = [
                 ":id" => $idAntiguo,
-                ":estado" => $arrayUsuario["estado"],
+                ":nombre" => $arrayUsuario["nombre"],
+                ":apellidos" => $arrayUsuario["apellidos"],
+                ":telefono" => $arrayUsuario["telefono"],
+                ":edad" => $arrayUsuario["edad"],
+                ":imagen" => $arrayUsuario["imagen"],
+                ":descripcion" => $arrayUsuario["descripcion"],
+                ":gmail" => $arrayUsuario["gmail"],
+                ":permisos" => $arrayUsuario["permisos"],
+                ":contrasenya" => password_hash($arrayUsuario["contrasenya"], PASSWORD_DEFAULT),
             ];
             $sentencia = $this->conexion->prepare($sql);
             return $sentencia->execute($arrayDatos);
@@ -95,7 +106,7 @@ class mensajesModel
 
     public function search(string $campo, string $modo, string $usuario): array
     {
-        $sentencia = $this->conexion->prepare("SELECT * FROM mensajes WHERE $campo LIKE :nombre");
+        $sentencia = $this->conexion->prepare("SELECT * FROM usuarios WHERE $campo LIKE :nombre");
         //ojo el si ponemos % siempre en comillas dobles "
         switch ($modo) {
             case 'empieza':
@@ -111,7 +122,7 @@ class mensajesModel
                 break;
             
             case 'distinto':
-                $sentencia = $this->conexion->prepare("SELECT * FROM mensajes WHERE $campo NOT LIKE :nombre");
+                $sentencia = $this->conexion->prepare("SELECT * FROM usuarios WHERE $campo NOT LIKE :nombre");
                 $arrayDatos = [":nombre" => "$usuario"];
                 break;
 
@@ -128,7 +139,7 @@ class mensajesModel
 
     public function login(string $nombre, string $contrasenya): ?stdClass
     {
-        $sentencia = $this->conexion->prepare("SELECT * FROM mensajes WHERE nombre=:nombre");
+        $sentencia = $this->conexion->prepare("SELECT * FROM usuarios WHERE nombre=:nombre");
         $arrayDatos = [
             ":nombre" => $nombre,
         ];
@@ -141,7 +152,7 @@ class mensajesModel
 
     public function exists(string $campo, string $valor): bool
     {
-        $sentencia = $this->conexion->prepare("SELECT * FROM mensajes WHERE $campo=:valor");
+        $sentencia = $this->conexion->prepare("SELECT * FROM usuarios WHERE $campo=:valor");
         $arrayDatos = [":valor" => $valor];
         $resultado = $sentencia->execute($arrayDatos);
         return (!$resultado || $sentencia->rowCount() <= 0) ? false : true;

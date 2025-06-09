@@ -19,7 +19,7 @@ if (isset($_REQUEST["error"])) {
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="text-center mb-4 text-primary">Crear nueva cita</h1>
+    <h1 class="text-center mb-4">Crear nueva cita</h1>
   </div>
 
   <div id="contenido" class="body-container">
@@ -27,18 +27,6 @@ if (isset($_REQUEST["error"])) {
     <!-- Imagen cuerpo humano -->
     <div class="imagen-cuerpo">
       <img src="assets/img/cuerpo.jpg" alt="Cuerpo humano" usemap="#zonas" class="cuerpo-img">
-      
-        <div class="zona cabeza"></div>
-        <div class="zona brazo-derecho"></div>
-        <div class="zona brazo-izquierdo"></div>
-        <div class="zona torso"></div>
-        <div class="zona muslo-derecho"></div>
-        <div class="zona muslo-izquierdo"></div>
-        <div class="zona pierna-derecha"></div>
-        <div class="zona pierna-izquierda"></div>
-        <div class="zona tobillo-derecho"></div>
-        <div class="zona tobillo-izquierdo"></div>
-      
 
       <div id="zonaSeleccionada" class="zona-info text-center">Haz clic en una zona del cuerpo</div>
       <map name="zonas">
