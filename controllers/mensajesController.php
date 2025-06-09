@@ -80,7 +80,7 @@ class MensajesController
     public function borrar(int $id): void
     {
         $borrado = $this->model->delete($id);
-        $url = "location:index.php?accion=buscar&tabla=mensajes";
+        $url = "location:index.php";
         if (!$borrado) $url .= "&error=true";
         header($url);
         exit();
