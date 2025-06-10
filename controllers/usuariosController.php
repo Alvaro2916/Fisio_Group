@@ -22,7 +22,31 @@ class UsuariosController
         $_SESSION["datos"] = [];
 
         // ERRORES DE TIPO
-
+        // Validación de edad
+        if (isset($arrayUser["edad"])) {
+            $edad = (int)$arrayUser["edad"];
+            if ($edad < 12 || $edad > 90) {
+                $errores["edad"][] = "La edad debe estar entre 12 y 90 años";
+                $error = true;
+            }
+        }
+    
+        // Validación de gmail
+        if (isset($arrayUser["gmail"])) {
+            if (!preg_match('/^[\w\.\-]+@gmail\.com$/', $arrayUser["gmail"])) {
+                $errores["gmail"][] = "El gmail debe tener formato válido (@gmail.com)";
+                $error = true;
+            }
+        }
+    
+        // Validación de teléfono
+        if (isset($arrayUser["telefono"])) {
+            if (!preg_match('/^\d{9}$/', $arrayUser["telefono"])) {
+                $errores["telefono"][] = "El teléfono debe contener exactamente 9 dígitos";
+                $error = true;
+            }
+        }
+        
         //campos NO VACIOS
         $arrayNoNulos = ["nombre", "contrasenya"];
         $nulos = HayNulos($arrayNoNulos, $arrayUser);
@@ -136,7 +160,30 @@ class UsuariosController
         }
 
         // ERRORES DE TIPO
-
+        // Validación de edad
+        if (isset($arrayUser["edad"])) {
+            $edad = (int)$arrayUser["edad"];
+            if ($edad < 12 || $edad > 90) {
+                $errores["edad"][] = "La edad debe estar entre 12 y 90 años";
+                $error = true;
+            }
+        }
+    
+        // Validación de gmail
+        if (isset($arrayUser["gmail"])) {
+            if (!preg_match('/^[\w\.\-]+@gmail\.com$/', $arrayUser["gmail"])) {
+                $errores["gmail"][] = "El gmail debe tener formato válido (@gmail.com)";
+                $error = true;
+            }
+        }
+    
+        // Validación de teléfono
+        if (isset($arrayUser["telefono"])) {
+            if (!preg_match('/^\d{9}$/', $arrayUser["telefono"])) {
+                $errores["telefono"][] = "El teléfono debe contener exactamente 9 dígitos";
+                $error = true;
+            }
+        }
         //campos NO VACIOS
         $arrayNoNulos = ["nombre", "contrasenya"];
         $nulos = HayNulos($arrayNoNulos, $arrayUser);
