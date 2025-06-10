@@ -99,7 +99,7 @@ class UsuariosController
             $id = $this->model->insert($arrayUser);
 
             if ($id !== null) {
-                header("Location: index.php?tabla=usuarios&accion=administrar");
+                header("Location: index.php");
                 exit;
             } else {
                 // Mostrar error o volver al formulario
